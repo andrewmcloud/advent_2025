@@ -27,7 +27,7 @@ for i in range(len(points)):
 sorted_distances = sorted(points_to_distances.values())
 distances_to_points = {v: k for k, v in points_to_distances.items()}
 
-def bfs(points: list[Point], graph: dict[Point, set[Point]]):
+def bfs(points: list[Point], graph: dict[Point, set[Point]]) -> list[set[Point]]:
     visited = set()
     circuits = []
     for point in points:
@@ -49,15 +49,29 @@ def bfs(points: list[Point], graph: dict[Point, set[Point]]):
         circuits.append(circuit)
     return circuits
 
-def part1(points: list[Point], connections: int = 1000):
+def part1(pts: list[Point], connections: int = 1000) -> int:
     graph = defaultdict(set)
     for d in sorted_distances[:connections]:
         p1, p2 = distances_to_points[d]
         graph[p1].add(p2)
         graph[p2].add(p1)
-    circuits = bfs(points, graph)
+    circuits = bfs(pts, graph)
     circuits.sort(key=len, reverse=True)
     return prod(len(circuit) for circuit in circuits[:3])
 
 
+def part2(pts: list[Point]) -> int:
+    graph = defaultdict(set)
+    for i, d in enumerate(sorted_distances):
+        p1, p2 = distances_to_points[d]
+        graph[p1].add(p2)
+        graph[p2].add(p1)
+        circuits = bfs(pts, graph)
+        circuits.sort(key=len, reverse=True)
+        if len(circuits[0]) == len(pts):
+            return p1.x * p2.x
+    raise ValueError("No solution found")
+
+
 print(f"part 1: {part1(points)}")
+print(f"part 2: {part2(points)}")
