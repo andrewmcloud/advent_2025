@@ -29,4 +29,4 @@ def press_buttons(indicator: int, wirings: list[int]) -> int:
         presses += 1
 
 
-print(sum(press_buttons(*parse_machine(machine)) for machine in machines))
+print(f"part 1: {sum(press_buttons(*parse_machine(machine)) for machine in machines)}")
