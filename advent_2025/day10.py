@@ -1,9 +1,10 @@
 import re
 from itertools import permutations
+
 with open("../input/day10.txt") as f:
     machines = [line.strip("\n") for line in f.readlines()]
 
-def parse_machine(machine: str):
+def parse_machine(machine: str) -> tuple[list[int], list[list[int]]]:
     indicator = [0 if x == "." else 1 for x in re.findall(r"[\\.#]+", machine)[0]]
     schematics = [[int(y) for y in x.split(",")] for x in re.findall(r"(?<=\().*?(?=\))", machine)]
     wirings = []
